@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37314.3 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericStore.WebApi", "GenericStore.WebApi\GenericStore.WebApi.csproj", "{2025E7D8-7649-46D5-85EF-F72BBE8DFB3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericStore.Domain", "..\GenericStore.Domain\GenericStore.Domain.csproj", "{C5CA8274-CB1F-4946-A4E0-50EF9B8B8ED6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericStore.Application", "..\GenericStore.Application\GenericStore.Application.csproj", "{F4089A58-E29F-4D5B-A7FA-0C5E883479B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericStore.Infrastructure", "..\GenericStore.Infrastructure\GenericStore.Infrastructure.csproj", "{CD575C85-C5EF-481F-80A7-66C3B9A2A4FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericStore.Tests", "..\GenericStore.Tests\GenericStore.Tests.csproj", "{782AFB30-ACB3-41BC-A6B6-3B17915AE3CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2025E7D8-7649-46D5-85EF-F72BBE8DFB3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2025E7D8-7649-46D5-85EF-F72BBE8DFB3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2025E7D8-7649-46D5-85EF-F72BBE8DFB3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2025E7D8-7649-46D5-85EF-F72BBE8DFB3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5CA8274-CB1F-4946-A4E0-50EF9B8B8ED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5CA8274-CB1F-4946-A4E0-50EF9B8B8ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5CA8274-CB1F-4946-A4E0-50EF9B8B8ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5CA8274-CB1F-4946-A4E0-50EF9B8B8ED6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4089A58-E29F-4D5B-A7FA-0C5E883479B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4089A58-E29F-4D5B-A7FA-0C5E883479B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4089A58-E29F-4D5B-A7FA-0C5E883479B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4089A58-E29F-4D5B-A7FA-0C5E883479B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD575C85-C5EF-481F-80A7-66C3B9A2A4FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD575C85-C5EF-481F-80A7-66C3B9A2A4FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD575C85-C5EF-481F-80A7-66C3B9A2A4FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD575C85-C5EF-481F-80A7-66C3B9A2A4FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{782AFB30-ACB3-41BC-A6B6-3B17915AE3CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{782AFB30-ACB3-41BC-A6B6-3B17915AE3CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{782AFB30-ACB3-41BC-A6B6-3B17915AE3CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{782AFB30-ACB3-41BC-A6B6-3B17915AE3CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BE6A7830-6AF4-4EAC-ADA9-5250348B0A0C}
+	EndGlobalSection
+EndGlobal
