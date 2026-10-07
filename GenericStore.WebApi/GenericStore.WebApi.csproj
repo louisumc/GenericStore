@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\GenericStore.Application\GenericStore.Application.csproj" />
-    <ProjectReference Include="..\..\GenericStore.Infrastructure\GenericStore.Infrastructure.csproj" />
+    <ProjectReference Include="..\GenericStore.Application\GenericStore.Application.csproj" />
+    <ProjectReference Include="..\GenericStore.Infrastructure\GenericStore.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
