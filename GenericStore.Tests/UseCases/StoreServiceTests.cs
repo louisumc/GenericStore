@@ -5,6 +5,7 @@ using GenericStore.Application.UseCases;
 using GenericStore.Domain.Entities;
 using GenericStore.Domain.Exceptions;
 using GenericStore.Domain.ValueObjects;
+using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 
 namespace GenericStore.Tests.UseCases;
@@ -17,7 +18,7 @@ public class StoreServiceTests
 
     public StoreServiceTests()
     {
-        _sut = new StoreService(_storeRepository, _userRepository);
+        _sut = new StoreService(_storeRepository, _userRepository, NullLogger<StoreService>.Instance);
     }
 
     private User CriarUsuarioExistente()
@@ -143,6 +144,68 @@ public class StoreServiceTests
 
         // Act
         var act = async () => await _sut.GetByUserIdAsync(Guid.NewGuid(), CancellationToken.None);
+
+        // Assert
+        await act.Should().ThrowAsync<NotFoundException>();
+    }
+
+    [Fact]
+    public async Task DeactivateAsync_DeveMarcarLojaComoInativa()
+    {
+        // Arrange
+        var store = new Store(Guid.NewGuid(), "Minha Loja", new Slug("minha-loja"));
+        _storeRepository.GetByIdAsync(store.Id, Arg.Any<CancellationToken>())
+            .Returns(store);
+
+        // Act
+        await _sut.DeactivateAsync(store.Id, CancellationToken.None);
+
+        // Assert
+        store.Active.Should().BeFalse();
+        await _storeRepository.Received(1).UpdateAsync(store, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task ActivateAsync_DeveMarcarLojaComoAtiva()
+    {
+        // Arrange
+        var store = new Store(Guid.NewGuid(), "Minha Loja", new Slug("minha-loja"));
+        store.Deactivate();
+
+        _storeRepository.GetByIdAsync(store.Id, Arg.Any<CancellationToken>())
+            .Returns(store);
+
+        // Act
+        await _sut.ActivateAsync(store.Id, CancellationToken.None);
+
+        // Assert
+        store.Active.Should().BeTrue();
+        await _storeRepository.Received(1).UpdateAsync(store, Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task DeactivateAsync_ComLojaInexistente_DeveLancarNotFoundException()
+    {
+        // Arrange
+        _storeRepository.GetByIdAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>())
+            .Returns((Store?)null);
+
+        // Act
+        var act = async () => await _sut.DeactivateAsync(Guid.NewGuid(), CancellationToken.None);
+
+        // Assert
+        await act.Should().ThrowAsync<NotFoundException>();
+    }
+
+    [Fact]
+    public async Task ActivateAsync_ComLojaInexistente_DeveLancarNotFoundException()
+    {
+        // Arrange
+        _storeRepository.GetByIdAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>())
+            .Returns((Store?)null);
+
+        // Act
+        var act = async () => await _sut.ActivateAsync(Guid.NewGuid(), CancellationToken.None);
 
         // Assert
         await act.Should().ThrowAsync<NotFoundException>();

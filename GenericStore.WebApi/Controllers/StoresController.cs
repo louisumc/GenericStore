@@ -1,6 +1,7 @@
 ﻿using GenericStore.Application.Abstractions;
-using GenericStore.Application.DTOs.Stores;
 using GenericStore.Application.DTOs.Products;
+using GenericStore.Application.DTOs.Stores;
+using GenericStore.Application.UseCases;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GenericStore.Api.Controllers;
@@ -56,5 +57,23 @@ public class StoresController : ControllerBase
     {
         var response = await _productService.GetActiveByStoreIdAsync(storeId, ct);
         return Ok(response);
+    }
+
+    [HttpPatch("{id:guid}/activate")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Activate(Guid id, CancellationToken ct)
+    {
+        await _service.ActivateAsync(id, ct);
+        return NoContent();
+    }
+
+    [HttpPatch("{id:guid}/deactivate")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Deactivate(Guid id, CancellationToken ct)
+    {
+        await _service.DeactivateAsync(id, ct);
+        return NoContent();
     }
 }

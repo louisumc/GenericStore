@@ -84,4 +84,46 @@ public class StoresEndpointsTests : IClassFixture<CustomWebApplicationFactory>
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
+
+
+    [Fact]
+    public async Task PATCH_Deactivate_DeveRetornar204_ERemoverLojaDeProdutosAtivos()
+    {
+        // Arrange
+        var userId = await CriarUsuario();
+        var payload = new { userId, name = "Loja", slug = SlugUnico() };
+        var createResp = await _client.PostAsJsonAsync("/api/stores", payload);
+        var store = await createResp.Content.ReadFromJsonAsync<StoreResponse>();
+
+        // Act
+        var response = await _client.PatchAsync($"/api/stores/{store!.Id}/deactivate", null);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+        var getResp = await _client.GetAsync($"/api/stores/{store.Id}");
+        var atualizada = await getResp.Content.ReadFromJsonAsync<StoreResponse>();
+        atualizada!.Active.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task PATCH_Activate_DeveRetornar204()
+    {
+        // Arrange
+        var userId = await CriarUsuario();
+        var payload = new { userId, name = "Loja", slug = SlugUnico() };
+        var createResp = await _client.PostAsJsonAsync("/api/stores", payload);
+        var store = await createResp.Content.ReadFromJsonAsync<StoreResponse>();
+        await _client.PatchAsync($"/api/stores/{store!.Id}/deactivate", null);
+
+        // Act
+        var response = await _client.PatchAsync($"/api/stores/{store.Id}/activate", null);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+        var getResp = await _client.GetAsync($"/api/stores/{store.Id}");
+        var atualizada = await getResp.Content.ReadFromJsonAsync<StoreResponse>();
+        atualizada!.Active.Should().BeTrue();
+    }
 }

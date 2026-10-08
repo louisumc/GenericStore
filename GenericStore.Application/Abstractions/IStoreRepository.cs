@@ -10,4 +10,6 @@ public interface IStoreRepository
     Task<IReadOnlyList<Store>> GetByUserIdAsync(Guid userId, CancellationToken ct);
     Task<bool> SlugExistsAsync(Slug slug, CancellationToken ct);
     Task AddAsync(Store store, CancellationToken ct);
+
+    Task UpdateAsync(Store store, CancellationToken ct);
 }

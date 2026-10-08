@@ -17,12 +17,12 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
-// Aplica migrations automaticamente (útil em Docker)
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<GenericStoreDbContext>();
-    db.Database.Migrate();
-}
+//// Aplica migrations automaticamente (útil em Docker)
+//using (var scope = app.Services.CreateScope())
+//{
+//    var db = scope.ServiceProvider.GetRequiredService<GenericStoreDbContext>();
+//    db.Database.Migrate();
+//}
 
 
 // Configure the HTTP request pipeline.

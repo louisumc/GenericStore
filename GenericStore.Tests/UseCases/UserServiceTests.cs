@@ -5,6 +5,7 @@ using GenericStore.Application.UseCases;
 using GenericStore.Domain.Entities;
 using GenericStore.Domain.Exceptions;
 using GenericStore.Domain.ValueObjects;
+using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 
 namespace GenericStore.Tests.UseCases;
@@ -16,7 +17,7 @@ public class UserServiceTests
 
     public UserServiceTests()
     {
-        _sut = new UserService(_repository);
+        _sut = new UserService(_repository, NullLogger<UserService>.Instance);
     }
 
     [Fact]

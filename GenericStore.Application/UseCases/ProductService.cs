@@ -2,6 +2,7 @@
 using GenericStore.Application.DTOs.Products;
 using GenericStore.Domain.Entities;
 using GenericStore.Domain.Exceptions;
+using Microsoft.Extensions.Logging;
 
 namespace GenericStore.Application.UseCases;
 
@@ -9,11 +10,16 @@ public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;
     private readonly IStoreRepository _storeRepository;
+    private readonly ILogger<ProductService> _logger;
 
-    public ProductService(IProductRepository productRepository, IStoreRepository storeRepository)
+    public ProductService(
+        IProductRepository productRepository,
+        IStoreRepository storeRepository,
+        ILogger<ProductService> logger)
     {
         _productRepository = productRepository;
         _storeRepository = storeRepository;
+        _logger = logger;
     }
 
     public async Task<ProductResponse> CreateAsync(CreateProductRequest request, CancellationToken ct)
@@ -32,6 +38,9 @@ public class ProductService : IProductService
             request.Stock);
 
         await _productRepository.AddAsync(product, ct);
+
+        _logger.LogInformation("Produto criado: {ProductId} ({Name}) na loja {StoreId}",
+            product.Id, product.Name, product.StoreId);
 
         return ToResponse(product);
     }
@@ -68,6 +77,8 @@ public class ProductService : IProductService
 
         await _productRepository.UpdateAsync(product, ct);
 
+        _logger.LogInformation("Produto atualizado: {ProductId} ({Name})", product.Id, product.Name);
+
         return ToResponse(product);
     }
 
@@ -78,6 +89,8 @@ public class ProductService : IProductService
 
         product.Deactivate();
         await _productRepository.UpdateAsync(product, ct);
+
+        _logger.LogInformation("Produto desativado: {ProductId}", product.Id);
     }
 
     public async Task ActivateAsync(Guid id, CancellationToken ct)
@@ -87,6 +100,8 @@ public class ProductService : IProductService
 
         product.Activate();
         await _productRepository.UpdateAsync(product, ct);
+
+        _logger.LogInformation("Produto ativado: {ProductId}", product.Id);
     }
 
     private static ProductResponse ToResponse(Product product) =>

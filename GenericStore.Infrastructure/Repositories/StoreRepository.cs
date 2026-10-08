@@ -32,4 +32,9 @@ public class StoreRepository : IStoreRepository
         await _db.Stores.AddAsync(store, ct);
         await _db.SaveChangesAsync(ct);
     }
+    public async Task UpdateAsync(Store store, CancellationToken ct)
+    {
+        _db.Stores.Update(store);
+        await _db.SaveChangesAsync(ct);
+    }
 }
