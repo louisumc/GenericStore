@@ -4,11 +4,11 @@ using GenericStore.Application.DTOs.Stores;
 using GenericStore.Application.UseCases;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GenericStore.Api.Controllers;
+namespace GenericStore.WebApi.Controllers;
 
 [ApiController]
 [Route("api/stores")]
-public class StoresController : ControllerBase
+public class StoresController : BaseController
 {
     private readonly IStoreService _service;
     private readonly IProductService _productService;

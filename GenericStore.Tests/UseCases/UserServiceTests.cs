@@ -13,18 +13,20 @@ namespace GenericStore.Tests.UseCases;
 public class UserServiceTests
 {
     private readonly IUserRepository _repository = Substitute.For<IUserRepository>();
+    private readonly IPasswordHasher _passwordHasher = Substitute.For<IPasswordHasher>();
     private readonly UserService _sut;
 
     public UserServiceTests()
     {
-        _sut = new UserService(_repository, NullLogger<UserService>.Instance);
+        _sut = new UserService(_repository, _passwordHasher, NullLogger<UserService>.Instance);
+        _passwordHasher.Hash(Arg.Any<string>()).Returns("hash-fake");
     }
 
     [Fact]
     public async Task CreateAsync_ComDadosValidos_DeveRetornarUsuario()
     {
         // Arrange
-        var request = new CreateUserRequest("João Silva", "joao@email.com");
+        var request = new CreateUserRequest("João Silva", "joao@email.com", "Pass@ww2a");
         _repository.EmailExistsAsync(Arg.Any<Email>(), Arg.Any<CancellationToken>())
             .Returns(false);
 
@@ -42,7 +44,7 @@ public class UserServiceTests
     public async Task CreateAsync_ComNomeInvalido_DeveLancarDomainException()
     {
         // Arrange
-        var request = new CreateUserRequest("Jo", "joao@email.com");
+        var request = new CreateUserRequest("Jo", "joao@email.com", "Pass@ww2a");
 
         // Act
         var act = async () => await _sut.CreateAsync(request, CancellationToken.None);
@@ -56,7 +58,7 @@ public class UserServiceTests
     public async Task CreateAsync_ComEmailInvalido_DeveLancarDomainException()
     {
         // Arrange
-        var request = new CreateUserRequest("João Silva", "nao-eh-email");
+        var request = new CreateUserRequest("João Silva", "nao-eh-email", "Pass@ww2a");
 
         // Act
         var act = async () => await _sut.CreateAsync(request, CancellationToken.None);
@@ -70,7 +72,7 @@ public class UserServiceTests
     public async Task CreateAsync_ComEmailDuplicado_DeveLancarConflictException()
     {
         // Arrange
-        var request = new CreateUserRequest("João Silva", "joao@email.com");
+        var request = new CreateUserRequest("João Silva", "joao@email.com", "Pass@ww2a");
         _repository.EmailExistsAsync(Arg.Any<Email>(), Arg.Any<CancellationToken>())
             .Returns(true);
 

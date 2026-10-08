@@ -10,16 +10,24 @@ namespace GenericStore.Application.UseCases;
 public class UserService : IUserService
 {
     private readonly IUserRepository _repository;
+    private readonly IPasswordHasher _passwordHasher;
     private readonly ILogger<UserService> _logger;
 
-    public UserService(IUserRepository repository, ILogger<UserService> logger)
+    public UserService(
+        IUserRepository repository,
+        IPasswordHasher passwordHasher,
+        ILogger<UserService> logger)
     {
         _repository = repository;
+        _passwordHasher = passwordHasher;
         _logger = logger;
     }
 
     public async Task<UserResponse> CreateAsync(CreateUserRequest request, CancellationToken ct)
     {
+        if (string.IsNullOrWhiteSpace(request.Password) || request.Password.Length < 6)
+            throw new DomainException("Senha deve ter no mínimo 6 caracteres.");
+
         var email = new Email(request.Email);
 
         if (await _repository.EmailExistsAsync(email, ct))
@@ -28,7 +36,8 @@ public class UserService : IUserService
             throw new ConflictException("E-mail já cadastrado.");
         }
 
-        var user = new User(request.Name, email);
+        var passwordHash = _passwordHasher.Hash(request.Password);
+        var user = new User(request.Name, email, passwordHash);
 
         await _repository.AddAsync(user, ct);
 

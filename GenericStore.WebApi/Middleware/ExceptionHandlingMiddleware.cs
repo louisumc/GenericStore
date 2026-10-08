@@ -2,7 +2,7 @@
 using System.Text.Json;
 using GenericStore.Domain.Exceptions;
 
-namespace GenericStore.Api.Middleware;
+namespace GenericStore.WebApi.Middleware;
 
 public class ExceptionHandlingMiddleware
 {

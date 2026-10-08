@@ -9,4 +9,6 @@ public interface IUserRepository
     Task<IReadOnlyList<User>> GetAllAsync(CancellationToken ct);
     Task<bool> EmailExistsAsync(Email email, CancellationToken ct);
     Task AddAsync(User user, CancellationToken ct);
+
+    Task<User?> GetByEmailAsync(Email email, CancellationToken ct);
 }

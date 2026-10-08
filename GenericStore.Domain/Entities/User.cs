@@ -8,6 +8,8 @@ public class User
     public Guid Id { get; private set; }
     public string Name { get; private set; }
     public Email Email { get; private set; }
+
+    public string PasswordHash { get; private set; }
     public DateTime CreatedAt { get; private set; }
 
     // Navegação: um User tem várias Stores
@@ -17,13 +19,17 @@ public class User
     // EF Core precisa deste construtor
     private User() { }
 
-    public User(string name, Email email)
+    public User(string name, Email email, string passwordHash)
     {
         ValidateName(name);
+
+        if (string.IsNullOrWhiteSpace(passwordHash))
+            throw new DomainException("Password hash é obrigatório.");
 
         Id = Guid.NewGuid();
         Name = name;
         Email = email;
+        PasswordHash = passwordHash;
         CreatedAt = DateTime.UtcNow;
     }
 

@@ -2,13 +2,14 @@
 using GenericStore.Application.DTOs.Stores;
 using GenericStore.Application.DTOs.Users;
 using GenericStore.Application.UseCases;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GenericStore.Api.Controllers;
+namespace GenericStore.WebApi.Controllers;
 
 [ApiController]
 [Route("api/users")]
-public class UsersController : ControllerBase
+public class UsersController : BaseController
 {
     private readonly IUserService _service;
     private readonly IStoreService _storeService;
@@ -23,6 +24,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(typeof(UserResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [AllowAnonymous]
     public async Task<IActionResult> Create(
         [FromBody] CreateUserRequest request,
         CancellationToken ct)

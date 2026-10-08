@@ -2,11 +2,11 @@
 using GenericStore.Application.DTOs.Products;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GenericStore.Api.Controllers;
+namespace GenericStore.WebApi.Controllers;
 
 [ApiController]
 [Route("api/products")]
-public class ProductsController : ControllerBase
+public class ProductsController : BaseController
 {
     private readonly IProductService _service;
 

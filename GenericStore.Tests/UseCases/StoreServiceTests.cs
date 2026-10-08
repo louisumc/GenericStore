@@ -22,7 +22,7 @@ public class StoreServiceTests
     }
 
     private User CriarUsuarioExistente()
-        => new("João Silva", new Email("joao@email.com"));
+        => new("João Silva", new Email("joao@email.com"),"Pass@ww2a");
 
     [Fact]
     public async Task CreateAsync_ComDadosValidos_DeveRetornarLojaAtiva()
